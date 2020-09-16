@@ -6,9 +6,11 @@ import { Avatar } from '@material-ui/core';
 import { auth } from '../../components/firebase/firebase';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import CartIcon from '../cart-icon/cart-icon.component'
+import CartDropdown from '../cart-dropdown/cart-dropdown.component'
 import './header.styles.scss'
 
-const Header = ({ currentUser }) => (<div className='header'>
+const Header = ({ currentUser, hidden }) => (<div className='header'>
     <Link className='logo-container' to='/'>
         <Logo className='logo' />
     </Link>
@@ -40,11 +42,14 @@ const Header = ({ currentUser }) => (<div className='header'>
          </div> 
          : <div className='option'>Guest</div>
        }
+       <CartIcon />
     </div>
+    {hidden ? null :<CartDropdown />}
 </div>)
 
-const mapStateToProps = state => ({
-   currentUser: state.user.currentUser
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+   currentUser,
+   hidden
 })
 
 export default connect(mapStateToProps)(Header);
